@@ -5,7 +5,7 @@ from Market_Cart.models import OrderDetail
 
 def navbar(request):
     nav_categories = Category.objects.all()
-    proucts_in_cart_count = (OrderDetail.objects.filter(order_id = request.user.id).count() or None)
+    proucts_in_cart_count = (OrderDetail.objects.filter(order_id = request.user.id).count() or 0)
     context = {
         'Products':'محصولات',
         'Articles':'مقالات',

@@ -1,12 +1,16 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login,logout
-
+from django.contrib.auth.decorators import login_required
 from Market_Accounts.models import Profile
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth.models import User
 
 # Create your views here.
 def Login_veiw(request):
+
+    if request.user.is_authenticated:
+        return redirect('/')
+
     Form = LoginForm(request.POST or None)
     if Form.is_valid():
         user_name = Form.cleaned_data.get('username')
@@ -19,11 +23,16 @@ def Login_veiw(request):
             Form.add_error('username','نام کاربری یا رمز عبور اشتباه است')
     return render(request,'accounts/login.html',{'form':Form})
 
+@login_required(login_url='/login')
 def Logout_view(request):
     logout(request)
     return redirect('/')
 
 def Register_view(request):
+
+    if request.user.is_authenticated:
+        return redirect('/')
+
     Form = RegisterForm(request.POST or None)
     if Form.is_valid():
         user_name = Form.cleaned_data.get('username')

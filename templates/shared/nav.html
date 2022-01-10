@@ -9,7 +9,11 @@
             <div class="tip">2</div>
         </a></li>
         <li><a href="/cart"><span class="icon_bag_alt"></span>
-            <div class="tip">{{proucts_in_cart_count}}</div>
+            <div class="tip">
+                {% if proucts_in_cart_count is not None%}
+                    {{proucts_in_cart_count}}
+                {% endif %}
+        </div>
         </a></li>
     </ul>
     <div class="offcanvas__logo">
