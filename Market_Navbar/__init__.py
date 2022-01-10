@@ -1,0 +1,1 @@
+default_app_config = 'Market_Navbar.apps.MarketNavbarConfig'

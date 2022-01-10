@@ -1,0 +1,13 @@
+{% for category in count %}
+                                <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                                    <div class="categories__item set-bg" data-setbg="{{category.image.url}}">
+                                        <div class="categories__text">
+                                            <h4 class="p-1 text-center">{{category.title}}</h4>
+
+                                            <span class="badge badge-light"> بیش از {{category.num_products}} محصول </span><hr>
+                                            
+                                            <a href="{{category.get_category_url}}">{{category_btn}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+            {% endfor %}

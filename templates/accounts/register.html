@@ -1,0 +1,77 @@
+{% extends 'shared/Layout.html' %}
+{% load static %}
+{% block content %}
+		<meta charset="utf-8">
+		<title>RegistrationForm_v1 by Colorlib</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<!-- MATERIAL DESIGN ICONIC FONT -->
+		<link rel="stylesheet" href="{% static 'RegisterForm/colorlib-regform-17/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css' %}">
+
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="{% static 'RegisterForm/colorlib-regform-17/css/style.css' %}">
+	</head>
+
+	<body>
+
+		<div class="wrapper">
+			<div class="inner">
+				<div class="image-holder">
+					<img src="{% static 'RegisterForm/colorlib-regform-17/images/registration-form-2.jpg' %}" alt="">
+				</div>
+				<form action="" method="post" class="" enctype="multipart/form-data">
+					{% csrf_token %}
+					<h3>ثبت نام</h3>
+					<div class="form-group">
+					{{register_form.firstname}}
+					{{register_form.lastname}}
+					</div>
+					<div class="form-wrapper">
+						{{register_form.username}}
+						<i class="zmdi zmdi-account"></i>
+						{% for error in register_form.username.errors %}
+                        	<p class="text-danger p-1">{{error}}</p>
+                    	{% endfor %}
+					</div>
+					<div class="form-wrapper">
+						{{register_form.email}}
+						<i class="zmdi zmdi-email"></i>
+					</div>
+					{% for error in register_form.email.errors %}
+                        <p class="text-danger p-1">{{error}}</p>
+                    {% endfor %}
+					<!-- <div class="form-wrapper">
+						<select name="" id="" class="form-control">
+							<option value="" disabled selected>Gender</option>
+							<option value="male">Male</option>
+							<option value="femal">Female</option>
+							<option value="other">Other</option>
+						</select>
+						<i class="zmdi zmdi-caret-down" style="font-size: 17px"></i>
+					</div> -->
+					<div class="form-wrapper">
+						{{register_form.gender}}
+						<i class="zmdi zmdi-lock"></i>
+					</div>
+					<div class="form-wrapper">
+						{{register_form.profile_pic}}
+						<i class="zmdi zmdi-lock"></i>
+					</div>
+					<div class="form-wrapper">
+						{{register_form.password}}
+						<i class="zmdi zmdi-lock"></i>
+					</div>
+					<div class="form-wrapper">
+						{{register_form.re_password}}
+						<i class="zmdi zmdi-lock"></i>
+					</div>
+					{% for error in register_form.re_password.errors %}
+                       <p class="text-danger p-3">{{error}}</p>
+                    {% endfor %}
+					<button class="btn btn-light">ثبت نام
+						<i class="zmdi zmdi-arrow-right"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+{% endblock %}

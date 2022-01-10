@@ -1,0 +1,20 @@
+{% if ActiveBanners %}
+
+<div class="col-lg-6 p-0">
+
+        <div class="categories__item categories__large__item set-bg"
+        data-setbg="{{ActiveBanners.image.url}}">
+        <div class="categories__text">
+            <h1>{{ActiveBanners.title}}</h1>
+            
+            <h5>
+                {{ActiveBanners.description}}
+            </h5>
+            <br>
+            <a href="{{ActiveBanners.go_to}}">{{ActiveBanners.text_button}}</a>
+        </div>
+    </div>
+  
+</div>
+
+{% endif %}

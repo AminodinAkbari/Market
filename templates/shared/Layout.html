@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- ________________ -->
+{% load render_partial %}
+<!-- ________________ -->
+
+    {% include 'shared/Meta.html' %}
+
+	{% include 'shared/styles.html' %}
+
+
+    <title>Ashion | Template</title>
+
+  </head>
+
+<body>
+
+{% block Navbar %} {% render_partial 'Market_Navbar.views.navbar' %} {% endblock %}
+
+
+{% block content %}
+    
+{% endblock content %}
+
+
+{% block Footer %} {% include 'shared/footer.html' %} {% endblock %}
+
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form" action="/search" method="GET">
+            <input type="text" id="search-input" placeholder="Search here....." name="q" value="{{request.GET.q}}">
+            <button type="button" class="btn btn-light icon_search search-switch btn-lg"></button>
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+
+{% include 'shared/scripts.html' %}
+
+</html>
