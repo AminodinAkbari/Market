@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render
 from .forms import NewOrderForm
-from .models import Order , OrderDetail
+from .models import *
 from Market_Product.models import Product
 from django.http.response import Http404
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required(login_url='/login')
 def Cart(request):
     items = OrderDetail.objects.filter(order_id = request.user.id)
     open_order:Order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
@@ -15,6 +17,7 @@ def Cart(request):
 
     return render(request,'shared/Cart.html',context)
 
+@login_required(login_url='/login')
 def add_to_order_detail(request,slug):
     Form = NewOrderForm(request.POST or None)
     print(Form)
@@ -39,6 +42,7 @@ def add_to_order_detail(request,slug):
         print("Form is not valid")
         return redirect('/Hichi')
 
+@login_required(login_url='/login')
 def remove_item_fromcart(request,**kwargs):
     detail_id = kwargs['order_id']
     if detail_id is not None:
@@ -47,3 +51,16 @@ def remove_item_fromcart(request,**kwargs):
             order_detail.delete()
             return redirect('/cart')
     raise Http404()
+
+
+@login_required(login_url='/login')
+def add_to_favorite(request,slug):
+    order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
+    
+    if order is None:
+        print("order is None")
+        order = Order.objects.create(owner_id=request.user.id,is_paid=False)
+
+    product = Product.objects.get_by_slug(slug)
+    order.userfavorite_set.create(favorite_id=product.id,user_id = order.owner_id)
+    return redirect('/')

@@ -5,12 +5,13 @@ from django.db.models import Count
 from django.views.generic import ListView
 import random
 from django.http import Http404,HttpResponseRedirect,HttpResponse
+from django.contrib import messages
 
 from Market_Accounts.models import Profile
 from Market_Cart.forms import NewOrderForm
 from .forms import ReviewForm
 from Market_Product.models import *
-from django.contrib import messages
+from Market_Cart.models import UserFavorite
 
 class AllProducts(ListView):
     template_name = 'products_templates/All_Products(ListView).html'
@@ -114,3 +115,8 @@ class ProductSearch(ListView):
         if our_query is not None:
             return Product.objects.search(our_query)
         return Product.objects.all()
+
+
+def userfavorite(request):
+    favorite = UserFavorite.objects.filter(user_id = request.user.id)
+    return render(request,'user/UserPanel.html',{'favorite':favorite})

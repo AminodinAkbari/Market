@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import CASCADE
 from Market_Product.models import Product
 
 class Order(models.Model):
@@ -25,4 +26,11 @@ class OrderDetail(models.Model):
 
     def get_total_price(self):
         return self.price * self.count
+
+class UserFavorite(models.Model):
+    user = models.ForeignKey(Order,on_delete=CASCADE)
+    favorite = models.ForeignKey(Product,on_delete=CASCADE)
+
+    def __str__(self) :
+        return self.favorite.title
         
