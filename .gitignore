@@ -2,3 +2,5 @@
 /.vscode
 /static
 db.sqlite3
+/Market/__pycache__
+/Market/tools.py

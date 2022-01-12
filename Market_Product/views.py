@@ -12,6 +12,7 @@ from Market_Cart.forms import NewOrderForm
 from .forms import ReviewForm
 from Market_Product.models import *
 from Market_Cart.models import UserFavorite
+from Market.tools import debugger
 
 class AllProducts(ListView):
     template_name = 'products_templates/All_Products(ListView).html'
@@ -30,6 +31,7 @@ class AllProductsByCategory(ListView):
             raise Http404('یافت نشد')
         return Product.objects.get_products_by_category(category_name)
 
+@debugger
 def categories(request):
     # count_ = Category.objects.all().annotate(num_products = Count('product'))[:4]
     items = list(Category.objects.all().annotate(num_products = Count('product')))
@@ -52,6 +54,7 @@ def home_products(request):
         
     }
     return render(request,'shared/sliders/product_slider.html',context)
+
 
 def pick_randomly(request):
         items = list(Product.objects.filter(active = True))

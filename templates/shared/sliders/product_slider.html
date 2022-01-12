@@ -17,35 +17,8 @@
             <div class="owl-carousel owl-theme container">
     
                 {% for item in products %}
-                <div class="item">
-                        <div class="product__item sale">
-                            <div class="product__item__pic set-bg" data-setbg="{{item.image.url}}">
-                                {% if item.off_sale %}
-                                <div class="label sale">تخفیف خورده</div>
-                                {% endif %}
-                                <ul class="product__hover">
-                                    <li><a href="{{item.image.url}}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="favorite/{{item.slug}}"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="{{item.get_absolute_url}}">{{item.title}}</a></h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                {% if item.off_sale %}
-                                <div class="product__price">{{item.price_with_discount}}<span>{{item.price}}</span></div>
-                                {% else %}
-                                <div class="product__price">{{item.price}}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
+                
+                {% include 'components/product_component.html' %}
 
                 {% endfor %}
 

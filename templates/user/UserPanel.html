@@ -1,10 +1,12 @@
 {% extends 'shared/Layout.html' %}
-
+{% load products %}
 {% block content %}
 <br>
+{% if favorite %}
 <div class="container rtl">
-    <h4 class="text-right">محصولات مورد علاقه شما</h4>
+    <h4 class="text-right">محصولات مورد علاقه شما <span class="icon_heart_alt"></span></h4>
     <hr>
+    
 <div class="row">
 
 {% for item in favorite %}
@@ -16,7 +18,7 @@
             {% endif %}
             <ul class="product__hover">
                 <li><a href="{{item.favorite.image.url}}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                <li><a href="favorite/{{item.slug}}"><span class="icon_heart_alt"></span></a></li>
+                <li><a href="remove_item_favorite/{{item.id}}"><span class="icon_close"></span></a></li>
                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
             </ul>
         </div>
@@ -40,4 +42,14 @@
 {% endfor %}
 </div>
 </div>
+{% else %}
+<div class="container">
+    <h5 class="alert alert-primary text-center">موردی در علاقه مندی ها پیدا نشد</h5>
+    <div class="row">
+        {% random_categories %}
+    </div>
+</div>
+{% endif %}
+
+
 {% endblock %}

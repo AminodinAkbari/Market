@@ -11,7 +11,7 @@ def random_product():
     random_symbol = random.sample(items, 6)
     return {'item':random_symbol}
 
-@register.inclusion_tag('shared/HomePage_Components/Header_Categories.html')
+@register.inclusion_tag('./shared/HomePage_Components/Header_Categories.html')
 def random_categories():
     items = list(Category.objects.all().annotate(num_products = Count('product')))
     header_categories = random.sample(items, 4)

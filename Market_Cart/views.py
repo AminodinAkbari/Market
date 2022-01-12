@@ -64,3 +64,13 @@ def add_to_favorite(request,slug):
     product = Product.objects.get_by_slug(slug)
     order.userfavorite_set.create(favorite_id=product.id,user_id = order.owner_id)
     return redirect('/')
+    
+@login_required(login_url='/login')
+def remove_item_favorite(request,**kwargs):
+    detail_id = kwargs['order_id']
+    if detail_id is not None:
+        order_detail = UserFavorite.objects.get_queryset().get(id=detail_id)
+        if order_detail is not None:
+            order_detail.delete()
+            return redirect('/favorites')
+    raise Http404()

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import CharField
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.timezone import now
 from datetime import datetime
@@ -40,6 +41,7 @@ class ProductManager(models.Manager):
             Q(tags__name__icontains=query)
             )
             return self.get_queryset().filter(lookup,active=True).distinct()
+
 
 class Category(models.Model):
     title = models.CharField(max_length=80,verbose_name='نام')
