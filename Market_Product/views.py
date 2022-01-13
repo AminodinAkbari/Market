@@ -31,7 +31,6 @@ class AllProductsByCategory(ListView):
             raise Http404('یافت نشد')
         return Product.objects.get_products_by_category(category_name)
 
-@debugger
 def categories(request):
     # count_ = Category.objects.all().annotate(num_products = Count('product'))[:4]
     items = list(Category.objects.all().annotate(num_products = Count('product')))

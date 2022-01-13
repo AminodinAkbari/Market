@@ -68,6 +68,10 @@
 					{% for error in register_form.re_password.errors %}
                        <p class="text-danger p-3">{{error}}</p>
                     {% endfor %}
+
+					{{register_form.captcha}}
+					<hr>
+
 					<button class="btn btn-light">ثبت نام
 						<i class="zmdi zmdi-arrow-right"></i>
 					</button>

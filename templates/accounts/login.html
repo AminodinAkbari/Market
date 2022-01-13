@@ -44,13 +44,16 @@
 			              <label class="form-control-placeholder" for="password">رمز عبور</label>
 			              <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 			            </div>
-
 					{% for error in form.username.errors %}
                     <p class="p-5 text-danger">{{error}}</p>
                     {% endfor %}
+
+				<div class="col-lg-6">{{form.captcha}}</div>
+					
+
 					<br>
 					<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
-		            
+		            <!-- <button class='js-captcha-refresh'></button> -->
 		            <!-- <div class="form-group d-md-flex">
 		            	<div class="w-50 text-left">
 			            	<label class="checkbox-wrap checkbox-primary mb-0">Remember Me

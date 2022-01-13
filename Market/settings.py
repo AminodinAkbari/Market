@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'mathfilters',
     'ckeditor',
+    'captcha',
 
     # OUR
     'Market_Navbar',
@@ -147,3 +148,6 @@ MEDIA_ROOT = BASE_DIR/"static/product_images/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RECAPTCHA_PUBLIC_KEY = '6LdBlA0eAAAAAEwYd8L4vryILeD5Cm76BCcrEci_'
+RECAPTCHA_PRIVATE_KEY = '6LdBlA0eAAAAAJ7M6L_GkdNK8EkrTr9IN6rOwQG2'

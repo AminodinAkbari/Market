@@ -1,5 +1,8 @@
+from tkinter import Widget
 from django import forms
 from django.contrib.auth.models import User
+from captcha import fields,widgets
+from captcha.widgets import ReCaptchaV2Invisible
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -7,6 +10,9 @@ class LoginForm(forms.Form):
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class':'form-control','id':'password'}),
+    )
+    captcha = fields.ReCaptchaField(
+    widget=widgets.ReCaptchaV2Checkbox()
     )
 
 class RegisterForm(forms.Form):
@@ -39,6 +45,10 @@ class RegisterForm(forms.Form):
     re_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder':'کلمه عبور (تکرار)','class':'form-control mb-3'}),
         label='رمز عبور (تکرار)'
+    )
+
+    captcha = fields.ReCaptchaField(
+    widget=widgets.ReCaptchaV2Checkbox()
     )
 
     def clean_re_password(self):
