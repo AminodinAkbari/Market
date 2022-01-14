@@ -4,3 +4,4 @@
 db.sqlite3
 /Market/__pycache__
 /Market/tools.py
+/templates/google.html

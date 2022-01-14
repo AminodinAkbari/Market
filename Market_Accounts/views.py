@@ -54,3 +54,7 @@ def Register_view(request):
         'register_form':Form
     }
     return render(request,'accounts/register.html',context)
+
+
+def google(request):
+    return render(request,'google.html',{})

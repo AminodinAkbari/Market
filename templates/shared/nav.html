@@ -16,14 +16,25 @@
         </div>
         </a></li>
     </ul>
+
+    {% if user.is_authenticated %}
+        <!-- <a href="/logout" class="rtl">خروج</a> -->
+            <div class="row">
+                <p><a href='/favorites'>{{ user.socialaccount_set.all.0.extra_data.name }}</a></p>
+                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="user-avatar" alt="user_avatar">
+            </div>
+        {% else %}
+            <a href="login" class="rtl">ورود / ثبت نام</a>
+    {% endif %}
+
     <div class="offcanvas__logo">
-        <a href="./index.html"><img src="{% static 'ashion-master/img/logo.png' %}" alt=""></a>
+        <a href="/"><img src="{% static 'ashion-master/img/logo.png' %}" alt=""></a>
     </div>
     <div id="mobile-menu-wrap"></div>
-    <div class="offcanvas__auth">
+    <!-- <div class="offcanvas__auth">
         <a href="#">sss</a>
         <a href="#">Register</a>
-    </div>
+    </div> -->
 </div>
 <!-- Offcanvas Menu End -->
 
@@ -56,11 +67,18 @@
                 <div class="header__right">
                     <div class="header__right__auth">
                         {% if user.is_authenticated %}
-                        <a href="/logout" class="rtl">خروج</a>
+                        <!-- <a href="/logout" class="rtl">خروج</a> -->
+                            {% if user.socialaccount_set.all.0.extra_data.name %}
+                            <div class="row">
+                                <p><a href='/favorites'>{{ user.socialaccount_set.all.0.extra_data.name }}</a></p>
+                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="user-avatar" alt="">
+                            </div>
+                            {% endif %}
                         {% else %}
                         <a href="login" class="rtl">ورود / ثبت نام</a>
                         {% endif %}
                     </div>
+                    
                     <ul class="header__right__widget">
                         <li><span class="icon_search search-switch"></span></li>
                         <li><a href="/favorites"><span class="icon_heart_alt"></span>
