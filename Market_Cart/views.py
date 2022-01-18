@@ -8,12 +8,14 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/login')
 def Cart(request):
-    items = OrderDetail.objects.filter(order_id = request.user.id)
     open_order:Order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
+    items = (OrderDetail.objects.filter(order_id = open_order or None))
+    # print(items_in)
+    # items = Product.objects.filter(slug = items_in) or None
+    
+
     context ={'items':items,'this_order':open_order}
 
-    # if items:
-    #     context['total'] = items.get_total_price()
 
     return render(request,'shared/Cart.html',context)
 
@@ -56,13 +58,15 @@ def remove_item_fromcart(request,**kwargs):
 @login_required(login_url='/login')
 def add_to_favorite(request,slug):
     order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
-    
+    print(order.owner_id)
+
     if order is None:
         print("order is None")
         order = Order.objects.create(owner_id=request.user.id,is_paid=False)
 
     product = Product.objects.get_by_slug(slug)
-    order.userfavorite_set.create(favorite_id=product.id,user_id = order.owner_id)
+    # order.userfavorite_set.create(favorite=product.id,user_id = request.user.id)
+    UserFavorite.objects.create(favorite_id=product.id,user = request.user.id)
     return redirect('/')
     
 @login_required(login_url='/login')

@@ -73,9 +73,9 @@ def product_detail(request, slug):
     img = Images.objects.filter(product = qs)
     related_products = Product.objects.get_queryset().filter(tags__product=qs).exclude(id=qs.id).distinct()[:8] 
     comments = Review.objects.filter(product=qs.id,status = 'True')
-    all_comments_for_this_qs = Review.objects.filter(product=qs.id).count()
+    all_comments_for_this_qs = Review.objects.filter(product=qs.id ,status = True).count()
     form = ReviewForm(request.POST or None)
-    current_user = Profile.objects.get(user=request.user.id)
+    # current_user = Profile.objects.get(user_id=request.user.id)
     new_form_order = NewOrderForm(request.POST or None)
     if form.is_valid():
         rate = form.cleaned_data.get('rate')
@@ -100,7 +100,7 @@ def product_detail(request, slug):
         'comments':comments,
         'count_comments':all_comments_for_this_qs,
         'form':form,
-        'this_user':current_user,
+        # 'this_user':current_user,
         'Form':new_form_order,
         }
     return render(request,'products_templates/ProductDetail.html',context)
@@ -120,5 +120,5 @@ class ProductSearch(ListView):
 
 
 def userfavorite(request):
-    favorite = UserFavorite.objects.filter(user_id = request.user.id)
+    favorite = UserFavorite.objects.filter(user = request.user.id)
     return render(request,'user/UserPanel.html',{'favorite':favorite})

@@ -71,11 +71,11 @@
                         {% else %}
                             <div class="product__details__price">{{item.price}}</div>
                         {% endif %}
-                        <div class="rtl text-justify">{{item.description|safe}}</div>
+                        
                         
                         
                         <div class="product__details__widget">
-                            <ul>
+                            <ul class="">
                                 <!-- <li>
                                     <span>Available color:</span>
                                     <div class="color__checkbox">
@@ -93,31 +93,21 @@
                                         </label>
                                     </div>
                                 </li> -->
-                                <li>
-                                    <span>Available size:</span>
+                                <li class="">
+                                    <span>سایزهای موجود :</span>
                                     <div class="size__btn">
-                                        <label for="xs-btn" class="active">
-                                            <input type="radio" id="xs-btn">
-                                            xs
+                                        {% for size in item.sizes.all %}
+                                        <label for="{{size.name}}-btn" class="{% if forloop.first %} active{% endif %}">
+                                            <input type="radio" id="{{size.name}}-btn" value="{{size.name}}">
+                                            {{size.name}}
                                         </label>
-                                        <label for="s-btn">
-                                            <input type="radio" id="s-btn">
-                                            s
-                                        </label>
-                                        <label for="m-btn">
-                                            <input type="radio" id="m-btn">
-                                            m
-                                        </label>
-                                        <label for="l-btn">
-                                            <input type="radio" id="l-btn">
-                                            l
-                                        </label>
+                                        {% endfor %}                                        
                                     </div>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <span>Promotions:</span>
                                     <p>Free shipping</p>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                         <hr>
@@ -125,7 +115,7 @@
                         <form action="/order_detail/{{item.slug}}" method="POST">
                             <div class="product__details__button">
                                 <div class="quantity">
-                                    <span>Quantity:</span>
+                                    <span>تعداد :</span>
                                     <div class="pro-qty">
                                         <!-- <input type="text" value="1"> -->
                                         {{Form.count}}
@@ -133,7 +123,7 @@
                                 </div>
                                 {% csrf_token %}
                                         
-                                <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</button>
+                                <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> افزودن به سبد خرید</button>
                                 <ul>
                                     <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 </ul>
@@ -166,18 +156,11 @@
                                     nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
                                 quis, sem.</p>
                             </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <h6>Specification</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                            <div class="tab-pane rtl" id="tabs-2" role="tabpanel">
+                                <hr>
+                                <h6>توضیحات</h6>
+                                <div class="rtl text-justify">{{item.description|safe}}</div>
+                                <hr>
                             </div>
                             <div class="tab-pane active" id="tabs-3" role="tabpanel">
                                 <div class="container rtl mr-5 text-right">
@@ -185,11 +168,11 @@
                                         {% for comment in comments %}
                                         <div class="col-md-8 ">
                                             <div class="media g-mb-30 media-comment">
-                                                <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="" alt="Image Description">
+                                                <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{%  static 'ashion-master/img/user/user.png' %}" alt="Image Description">
                                                 <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                                                 <div class="g-mb-15">
                                                     <p class=" mb-0 badge badge-secondary">{{comment.user.get_full_name}}</p>
-                                                    <!-- <span class="g-color-gray-dark-v4 g-font-size-12">5 days ago</span> -->
+                                                    <span class="g-color-gray-dark-v4 g-font-size-12">کاربر به این محصول {{comment.rate}} از 5 میدهد</span>
                                                     <hr>
                                                 </div>
                                             
@@ -204,7 +187,7 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-
+                                {% if user.is_authenticated %}
                                 <form class="rtl" action="/product_detail/{{item.slug}}" method="POST">
 
                                     {% if messages %}
@@ -222,11 +205,14 @@
 
                                     {% csrf_token %}
                                     {{form.rate}}
-                                    <br>
+                                    <hr>
                                     {{form.comment}}
                                     <br>
                                     <button type="submit" class="btn btn-success">افزودن نظر</button>
                                 </form>
+                                {% else %}
+                                <p class="alert alert-primary rtl text-right">برای ثبت دیدگاه باید <a href="/login">وارد</a> شوید</p>
+                                {% endif %}
                         </div>
                         </div>
                     </div>
@@ -271,7 +257,7 @@
     <!-- Product Details Section End -->
 
     <!-- Instagram Begin -->
-    <div class="instagram">
+    <!-- <div class="instagram">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
@@ -324,5 +310,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     {% endblock %}

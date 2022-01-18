@@ -49,13 +49,16 @@
                     <p class="p-5 text-danger">{{error}}</p>
                     {% endfor %}
 
-					<a class="btn btn-success" href="{% provider_login_url 'google' %}">Login with Google</a>
-<br><br>
+					<!-- <a class="btn btn-success" href="{% provider_login_url 'google' %}">Login with Google</a> -->
+					
+<br>
 				<div class="col-lg-6">{{form.captcha}}</div>
 					
 
 					<br>
 					<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+					<hr>
+					<div class="col-gl-12 text-center">{% include 'accounts/login_google_button.html' %}</div>
 		            <!-- <button class='js-captcha-refresh'></button> -->
 		            <!-- <div class="form-group d-md-flex">
 		            	<div class="w-50 text-left">

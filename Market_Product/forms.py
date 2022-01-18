@@ -11,15 +11,8 @@ rates = [
 ]
 
 class ReviewForm(forms.Form):
-    rate = forms.CharField(
-            widget=forms.TextInput,
-            label='به این محصول چه امتیازی می دهید ؟',
-        )   
-    # rate = forms.CharField(
-    #     widget=forms.TextInput(attrs={'class':'form-control','id':'comment-input','placeholder':'نظر خود را بنویسید (پس از تایید ، در همین صفحه نمایش داده خواهد شد)'}),
-    #     label=''
-    # )  
+    rate = forms.ChoiceField(widget=forms.Select, choices=rates)   
     comment = forms.CharField(
         widget=forms.Textarea(attrs={'class':'form-control','id':'comment-input','placeholder':'نظر خود را بنویسید (پس از تایید ، در همین صفحه نمایش داده خواهد شد)'}),
-        label=''
+        label='متن دیدگاه'
     )  

@@ -56,12 +56,18 @@ class Category(models.Model):
         return f"categories/{self.url_name}"
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50,verbose_name='نام برچسب')
+    name = models.CharField(max_length=100)
     slug = models.SlugField(blank=True)
     active = models.BooleanField(default=True)
 
     def __str__(self) :
-        return self.name   
+        return self.name 
+
+class Size(models.Model):
+    name = models.CharField(max_length=20,verbose_name='نام سایز') 
+
+    def __str__(self) :
+        return self.name
 
 class Product(models.Model):
     title = models.CharField(max_length=80,verbose_name='نام')
@@ -70,7 +76,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='قیمت')
     image = models.ImageField(upload_to = "product_images",verbose_name='تصویر')
     slug = models.SlugField(max_length=100,unique=True,blank=True,allow_unicode=True)
-    tags = models.ManyToManyField(Tag,verbose_name='برچسب ها')
+    tags = models.ManyToManyField(Tag,verbose_name='برچسب ها',blank=True)
     off_sale = models.IntegerField(verbose_name='تخفیف(مقدار تخفیف)',default='0')
     active = models.BooleanField(default=False,verbose_name='موجود / ناموجود')
 
@@ -78,6 +84,9 @@ class Product(models.Model):
     
 
     date = models.DateField(default=now)
+
+    sizes = models.ManyToManyField(Size,verbose_name='سایزهای موجود',blank=True)
+
     objects = ProductManager()
 
     def __str__(self):

@@ -4,7 +4,7 @@ from django.db.models.deletion import CASCADE
 from Market_Product.models import Product
 
 class Order(models.Model):
-    owner = models.ForeignKey(User,on_delete=models.CASCADE)
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     is_paid = models.BooleanField(default=False)
     paymant_date=models.DateTimeField(blank=True,null=True)	
 
@@ -16,21 +16,19 @@ class Order(models.Model):
 
         
 class OrderDetail(models.Model):
-    order = models.ForeignKey(Order,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
     price = models.IntegerField()
     count = models.IntegerField()
 
-    def __str__(self):
-        return self.product.title
 
     def get_total_price(self):
         return self.price * self.count
 
 class UserFavorite(models.Model):
-    user = models.ForeignKey(Order,on_delete=CASCADE)
-    favorite = models.ForeignKey(Product,on_delete=CASCADE)
+    # user = models.ForeignKey(Order,on_delete=CASCADE,blank=True,null=True)
+    # favorite = models.ForeignKey(Product,on_delete=CASCADE,null=True,blank=True)
+    user = models.CharField(max_length=250)
+    favorite = models.ForeignKey(Product,on_delete=CASCADE,null=True,blank=True)
 
-    def __str__(self) :
-        return self.favorite.title
         

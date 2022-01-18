@@ -18,10 +18,15 @@
     </ul>
 
     {% if user.is_authenticated %}
+        
         <!-- <a href="/logout" class="rtl">خروج</a> -->
             <div class="row">
+                {% if user.socialaccount_set.all.0.extra_data.name %}
                 <p><a href='/favorites'>{{ user.socialaccount_set.all.0.extra_data.name }}</a></p>
                 <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="user-avatar" alt="user_avatar">
+                {% else %}
+                <p><a href='/favorites'>{{ user.first_name }}</a></p>
+                {% endif %}
             </div>
         {% else %}
             <a href="login" class="rtl">ورود / ثبت نام</a>
@@ -68,14 +73,16 @@
                     <div class="header__right__auth">
                         {% if user.is_authenticated %}
                         <!-- <a href="/logout" class="rtl">خروج</a> -->
-                            {% if user.socialaccount_set.all.0.extra_data.name %}
                             <div class="row">
+                                {% if user.socialaccount_set.all.0.extra_data.name %}
                                 <p><a href='/favorites'>{{ user.socialaccount_set.all.0.extra_data.name }}</a></p>
-                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="user-avatar" alt="">
-                            </div>
+                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="user-avatar" alt="user_avatar">
+                                {% else %}
+                                <p><a href='/favorites'>{{ user.first_name }}</a></p>
                             {% endif %}
+                        </div>
                         {% else %}
-                        <a href="login" class="rtl">ورود / ثبت نام</a>
+                        <a href="/login" class="rtl">ورود / ثبت نام</a>
                         {% endif %}
                     </div>
                     

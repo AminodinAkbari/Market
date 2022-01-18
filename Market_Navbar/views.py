@@ -5,8 +5,8 @@ from Market_Cart.models import OrderDetail,UserFavorite
 
 def navbar(request):
     nav_categories = Category.objects.all()
-    proucts_in_cart_count = (OrderDetail.objects.filter(order_id = request.user.id).count() or 0)
-    proucts_in_favorite = (UserFavorite.objects.filter(user_id = request.user.id).count() or 0)
+    proucts_in_cart_count = (OrderDetail.objects.filter(order__owner_id = request.user.id).count() or 0)
+    proucts_in_favorite = (UserFavorite.objects.filter(user = request.user.id).count() or 0)
     context = {
         'Products':'محصولات',
         'Articles':'مقالات',
