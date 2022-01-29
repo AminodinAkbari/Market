@@ -11,6 +11,7 @@
                             <thead>
                                 <tr>
                                     <th>محصول</th>
+                                    <th>سایز</th>
                                     <th>قیمت</th>
                                     <th>تعداد</th>
                                     <th>جمع</th>
@@ -37,6 +38,7 @@
                                     </td>
                                     
 
+                                    <td class="cart__price">{{item.size}}</td>
                                     <td class="cart__price">{{item.product.price_with_discount}}</td>
                                     <td class="cart__total">{{item.count}}</td>
                                     <td class="cart__total">{{item.get_total_price}}</td>

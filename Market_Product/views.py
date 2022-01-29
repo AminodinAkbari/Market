@@ -7,12 +7,18 @@ import random
 from django.http import Http404,HttpResponseRedirect,HttpResponse
 from django.contrib import messages
 
+from django import forms
+
 from Market_Accounts.models import Profile
-from Market_Cart.forms import NewOrderForm
+# from Market_Cart.forms import NewOrderForm
 from .forms import ReviewForm
 from Market_Product.models import *
 from Market_Cart.models import UserFavorite
 from Market.tools import debugger
+
+from Market_Cart.forms import NewOrderForm
+
+from .utils import get_rate_avg
 
 class AllProducts(ListView):
     template_name = 'products_templates/All_Products(ListView).html'
@@ -68,11 +74,21 @@ def pick_randomly(request):
 #      template_name = 'products_templates/ProductDetail.html'
     # template =
 
+
+
+    
 def product_detail(request, slug):
     qs = Product.objects.get(slug=slug)
+    splited_features = qs.featuers.split("،")
     img = Images.objects.filter(product = qs)
     related_products = Product.objects.get_queryset().filter(tags__product=qs).exclude(id=qs.id).distinct()[:8] 
     comments = Review.objects.filter(product=qs.id,status = 'True')
+    if comments.count() > 1:
+        rate_avg = get_rate_avg(comments)
+    else:
+        rate_avg = None
+
+    # rate = comments.rate
     all_comments_for_this_qs = Review.objects.filter(product=qs.id ,status = True).count()
     form = ReviewForm(request.POST or None)
     # current_user = Profile.objects.get(user_id=request.user.id)
@@ -80,7 +96,7 @@ def product_detail(request, slug):
     if form.is_valid():
         rate = form.cleaned_data.get('rate')
         comment = form.cleaned_data.get('comment')
-        print(rate,comment)
+        # print(rate,comment)
 
         product = Product.objects.get(slug = slug)
         user = User.objects.get(id=request.user.id)
@@ -93,16 +109,26 @@ def product_detail(request, slug):
     if qs is None and img is None:
         return home_page
 
+
+
     context = {
         "item":qs,
         'img':img,
         'related':related_products,
         'comments':comments,
+        'rate_avg':rate_avg,
         'count_comments':all_comments_for_this_qs,
         'form':form,
         # 'this_user':current_user,
         'Form':new_form_order,
+        'featuers':splited_features,
         }
+
+    
+
+
+
+
     return render(request,'products_templates/ProductDetail.html',context)
 
 
@@ -122,3 +148,7 @@ class ProductSearch(ListView):
 def userfavorite(request):
     favorite = UserFavorite.objects.filter(user = request.user.id)
     return render(request,'user/UserPanel.html',{'favorite':favorite})
+
+def company_page(request,slug):
+    company = Product.objects.get(slug = slug)
+    return render(request,'products_templates/Company.html',{'company':company})

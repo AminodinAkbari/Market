@@ -26,7 +26,7 @@
 
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
-        <div class="container">
+        <div class="container shadow-box">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
@@ -56,15 +56,22 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3>{{item.title}} <span>Brand :</span></h3>
+                        <h3>{{item.title}} 
+                            {% if item.company %}
+                            <span class="rtl">برند : <a href="{{item.get_company}}">{{item.company.name}}</span></a>
+                            {% endif %}
+                        </h3>
+                        {% if rate_avg is not None %}
                         <div class="rating">
+                            <!--<i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( show reviews )</span>
+                            <i class="fa fa-star"></i>-->
+                            <span class="Product-Rate">{{rate_avg}}</span>
+                            <span>میانگین امتیاز ({{comments.count}}) کاربر ، (از 5 نمره)</span>
                         </div>
+                        {% endif %}
                         <!-- <div class="product__details__price">$ 75.0 <span>$ 83.0</span></div> -->
                         {% if item.off_sale %}
                             <div class="product__details__price">{{item.price_with_discount}}<span>{{item.price}}</span></div>
@@ -72,11 +79,19 @@
                             <div class="product__details__price">{{item.price}}</div>
                         {% endif %}
                         
-                        
-                        
-                        <div class="product__details__widget">
+                    <div class="col-lg-8">
+                        <ul class="rtl text-right">
+                            <h5>ویژگی های محصول :</h5><hr>
+                        {% for i in featuers %}
+                            <li class="mb-3">{{i}}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                        <form action="/order_detail/{{item.slug}}" method="POST">
+
+                            <div class="product__details__widget">
                             <ul class="">
-                                <!-- <li>
+                                <li>
                                     <span>Available color:</span>
                                     <div class="color__checkbox">
                                         <label for="red">
@@ -92,16 +107,17 @@
                                             <span class="checkmark grey-bg"></span>
                                         </label>
                                     </div>
-                                </li> -->
+                                </li>
                                 <li class="">
-                                    <span>سایزهای موجود :</span>
+                                    
                                     <div class="size__btn">
-                                        {% for size in item.sizes.all %}
-                                        <label for="{{size.name}}-btn" class="{% if forloop.first %} active{% endif %}">
-                                            <input type="radio" id="{{size.name}}-btn" value="{{size.name}}">
-                                            {{size.name}}
-                                        </label>
-                                        {% endfor %}                                        
+                                         
+                                        <span>سایزهای موجود :</span>
+                                        <select name="size" id="size">
+                                            {% for size in item.sizes.all %}
+                                                <option value="{{size}}">{{size}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </li>
                                 <!-- <li>
@@ -110,9 +126,9 @@
                                 </li> -->
                             </ul>
                         </div>
-                        <hr>
 
-                        <form action="/order_detail/{{item.slug}}" method="POST">
+                        <hr>
+                        
                             <div class="product__details__button">
                                 <div class="quantity">
                                     <span>تعداد :</span>
@@ -125,7 +141,7 @@
                                         
                                 <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> افزودن به سبد خرید</button>
                                 <ul>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                    <li><a href="/favorite/{{item.slug}}"><span class="icon_heart_alt"></span></a></li>
                                 </ul>
                             </div>
                         </form>
@@ -136,33 +152,21 @@
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">توضیحات</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-2" role="tab">توضیحات</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">نظرات ( {{count_comments}} )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">نظرات ( {{count_comments}} )</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane" id="tabs-1" role="tabpanel">
-                                <h6>Description</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
-                            </div>
-                            <div class="tab-pane rtl" id="tabs-2" role="tabpanel">
+                            
+                            <div class="tab-pane rtl active" id="tabs-2" role="tabpanel">
                                 <hr>
                                 <h6>توضیحات</h6>
                                 <div class="rtl text-justify">{{item.description|safe}}</div>
                                 <hr>
                             </div>
-                            <div class="tab-pane active" id="tabs-3" role="tabpanel">
+                            <div class="tab-pane " id="tabs-3" role="tabpanel">
                                 <div class="container rtl mr-5 text-right">
                                     <div class="row">
                                         {% for comment in comments %}

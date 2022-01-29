@@ -1,9 +1,9 @@
 from django import forms
+from Market_Product.models import Product
+
+# qs = Product.objects.get(slug=slug)
 
 class NewOrderForm(forms.Form):
-    # product_id = forms.CharField(
-    #     widget=forms.HiddenInput()
-    # )
     count = forms.IntegerField(
         widget=forms.NumberInput(attrs={'value':1})
     )

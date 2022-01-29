@@ -20,6 +20,7 @@ class OrderDetail(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
     price = models.IntegerField()
     count = models.IntegerField()
+    size = models.CharField(max_length=50,default='Here Can Be Your Size')
 
 
     def get_total_price(self):

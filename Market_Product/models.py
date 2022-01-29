@@ -12,7 +12,6 @@ from django.utils.html import format_html
 from ckeditor.fields import RichTextField
 from django.db.models import Q
 from django.http import Http404
-
 # Create your models here.
 
 class ProductManager(models.Manager):
@@ -53,7 +52,7 @@ class Category(models.Model):
         return self.title
 
     def get_category_url(self):
-        return f"categories/{self.url_name}"
+        return f"/categories/{self.url_name}"
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
@@ -64,13 +63,23 @@ class Tag(models.Model):
         return self.name 
 
 class Size(models.Model):
-    name = models.CharField(max_length=20,verbose_name='نام سایز') 
+    title = models.CharField(max_length=20,verbose_name='نام سایز') 
 
+    def __str__(self) :
+        return self.title
+
+class Company(models.Model):
+    name = models.CharField(max_length=20,verbose_name='نام کمپانی')
+    about = RichTextField(verbose_name='درباره')
+    
     def __str__(self) :
         return self.name
 
+    
+
 class Product(models.Model):
     title = models.CharField(max_length=80,verbose_name='نام')
+    featuers = models.TextField(verbose_name='ویژگی ها',default='ویژگی های محصول را با علامت (،) از هم جدا کنید')
     description = RichTextField(verbose_name='توضیحات')
     count = models.IntegerField(verbose_name='تعداد')
     price = models.IntegerField(verbose_name='قیمت')
@@ -82,21 +91,20 @@ class Product(models.Model):
 
     category = models.ForeignKey(Category,on_delete = CASCADE)
     
-
     date = models.DateField(default=now)
 
     sizes = models.ManyToManyField(Size,verbose_name='سایزهای موجود',blank=True)
-
+    company = models.ForeignKey(Company,on_delete=CASCADE , blank=True , null=True)
     objects = ProductManager()
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return f"product_detail/{self.slug}"
+        return f"/product_detail/{self.slug}"
 
-    def get_product_id_for_review(self):
-        return f"SendReview"/{self.id}
+    def get_company(self):
+        return f"/Company/{self.slug}"
 
     def price_with_discount(self):
         return self.price - self.off_sale
@@ -110,7 +118,7 @@ class Product(models.Model):
     def image_tag(self):
         return format_html('<img src="{}" / style="width:70px;">'.format(self.image.url))
 
-        image_tag.short_description = 'Image'
+    image_tag.short_description = 'Image'
 
 
 def product_presave_receiver(sender,instance,*args,**kwargs):
@@ -145,4 +153,6 @@ class Review(models.Model):
 
     def __str__(self) :
         return self.product.title
+
+
 

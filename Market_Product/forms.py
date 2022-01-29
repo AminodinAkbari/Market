@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review
+from .models import Product, Review
 
 rates = [
     ('None' , '(امتیاز شما برای این محصول)'),
@@ -9,6 +9,9 @@ rates = [
     (4,4),
     (5,5),
 ]
+# sizes = [
+#     ('S' , Product.objects.get('S'))
+# ]
 
 class ReviewForm(forms.Form):
     rate = forms.ChoiceField(widget=forms.Select, choices=rates)   

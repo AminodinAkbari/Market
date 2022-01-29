@@ -10,10 +10,6 @@ from django.contrib.auth.decorators import login_required
 def Cart(request):
     open_order:Order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
     items = (OrderDetail.objects.filter(order_id = open_order or None))
-    # print(items_in)
-    # items = Product.objects.filter(slug = items_in) or None
-    
-
     context ={'items':items,'this_order':open_order}
 
 
@@ -22,7 +18,9 @@ def Cart(request):
 @login_required(login_url='/login')
 def add_to_order_detail(request,slug):
     Form = NewOrderForm(request.POST or None)
-    print(Form)
+
+    size = request.POST['size'] or None
+
     if Form.is_valid():
         order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
         print(order)
@@ -37,7 +35,7 @@ def add_to_order_detail(request,slug):
             print("order is None")
             order = Order.objects.create(owner_id=request.user.id,is_paid=False)
         
-        order.orderdetail_set.create(product_id=product.id,count=count,price=product.price - product.off_sale)    
+        order.orderdetail_set.create(product_id=product.id,count=count,price=product.price - product.off_sale,size = size)    
 
         return redirect('/')
     else:
