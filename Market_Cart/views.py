@@ -20,6 +20,8 @@ def add_to_order_detail(request,slug):
     Form = NewOrderForm(request.POST or None)
 
     size = request.POST['size'] or None
+    color = request.POST['color'] or None
+    print(color)
 
     if Form.is_valid():
         order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
@@ -35,7 +37,7 @@ def add_to_order_detail(request,slug):
             print("order is None")
             order = Order.objects.create(owner_id=request.user.id,is_paid=False)
         
-        order.orderdetail_set.create(product_id=product.id,count=count,price=product.price - product.off_sale,size = size)    
+        order.orderdetail_set.create(product_id=product.id,count=count,price=product.price - product.off_sale,size = size,color = color)    
 
         return redirect('/')
     else:

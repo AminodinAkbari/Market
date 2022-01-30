@@ -5,5 +5,5 @@ def get_rate_avg(arg):
     avg=0
     for i in rate:
         avg+=i
-    avg = avg/len(rate)
+    avg = float(avg/len(rate))
     return avg

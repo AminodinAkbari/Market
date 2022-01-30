@@ -73,9 +73,6 @@ def pick_randomly(request):
 #      queryset = Product
 #      template_name = 'products_templates/ProductDetail.html'
     # template =
-
-
-
     
 def product_detail(request, slug):
     qs = Product.objects.get(slug=slug)
@@ -123,10 +120,6 @@ def product_detail(request, slug):
         'Form':new_form_order,
         'featuers':splited_features,
         }
-
-    
-
-
 
 
     return render(request,'products_templates/ProductDetail.html',context)

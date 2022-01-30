@@ -21,6 +21,7 @@ class OrderDetail(models.Model):
     price = models.IntegerField()
     count = models.IntegerField()
     size = models.CharField(max_length=50,default='Here Can Be Your Size')
+    color = models.CharField(max_length=50,default='Here Can Be Your Selected Color')
 
 
     def get_total_price(self):

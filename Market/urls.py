@@ -9,7 +9,7 @@ from .views import home_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_page),
+    path('', home_page,name='Home'),
     path('navbar',include('Market_Navbar.urls')),
     path('header_off_banner',include('Market_OFFs_Banners.urls')),
     path('',include('Market_Product.urls'), name='product_detail'),

@@ -28,7 +28,19 @@
   </nav>-->
         
 
-
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'Home' %}"><i class="fa fa-home"></i> خانه</a>
+                    <span>{% if request.path %}همه محصولات{% endif %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

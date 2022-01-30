@@ -14,6 +14,9 @@ class ProductModelAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     list_display    = ['__str__','rate','user','status']
 
+class ColorAdmin(admin.ModelAdmin):
+    list_display = ['__str__','color_tag','code']
+
 admin.site.register(Category)
 admin.site.register(Product,ProductModelAdmin)
 admin.site.register(Images)
@@ -21,3 +24,4 @@ admin.site.register(Tag)
 admin.site.register(Review,ReviewAdmin)
 admin.site.register(Size)
 admin.site.register(Company)
+admin.site.register(Color,ColorAdmin)

@@ -1,3 +1,4 @@
+from itertools import product
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
@@ -13,6 +14,7 @@ from ckeditor.fields import RichTextField
 from django.db.models import Q
 from django.http import Http404
 # Create your models here.
+from .utils import get_rate_avg
 
 class ProductManager(models.Manager):
     def get_active_products(self):
@@ -52,7 +54,7 @@ class Category(models.Model):
         return self.title
 
     def get_category_url(self):
-        return f"/categories/{self.url_name}"
+        return f"categories/{self.url_name}"
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
@@ -76,10 +78,23 @@ class Company(models.Model):
         return self.name
 
     
+class Color(models.Model):
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=10 , blank=True , null=True)
+
+    def color_tag(self):
+        if self.code is not None:
+            return format_html('<p style="background-color:{};color:white;padding:10px;border-radius:25%;width:20px"></p>'.format(self.code))
+        else:
+            return ""
+
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     title = models.CharField(max_length=80,verbose_name='نام')
-    featuers = models.TextField(verbose_name='ویژگی ها',default='ویژگی های محصول را با علامت (،) از هم جدا کنید')
+    color = models.ManyToManyField(Color , blank=True,verbose_name = 'رنگ')
+    featuers = models.TextField(verbose_name='ویژگی ها',blank=True , null = True)
     description = RichTextField(verbose_name='توضیحات')
     count = models.IntegerField(verbose_name='تعداد')
     price = models.IntegerField(verbose_name='قیمت')
@@ -95,6 +110,7 @@ class Product(models.Model):
 
     sizes = models.ManyToManyField(Size,verbose_name='سایزهای موجود',blank=True)
     company = models.ForeignKey(Company,on_delete=CASCADE , blank=True , null=True)
+    rate = models.CharField(max_length=100,default=None,blank=True,null=True)
     objects = ProductManager()
 
     def __str__(self):
@@ -105,6 +121,7 @@ class Product(models.Model):
 
     def get_company(self):
         return f"/Company/{self.slug}"
+
 
     def price_with_discount(self):
         return self.price - self.off_sale
@@ -153,6 +170,7 @@ class Review(models.Model):
 
     def __str__(self) :
         return self.product.title
+
 
 
 
