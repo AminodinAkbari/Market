@@ -1,0 +1,55 @@
+{% extends 'shared/Layout.html' %}
+{% load products %}
+{% block content %}
+<br>
+{% if favorite %}
+<div class="container rtl">
+    <h4 class="text-right">محصولات مورد علاقه شما <span class="icon_heart_alt"></span></h4>
+    <hr>
+    
+<div class="row">
+
+{% for item in favorite %}
+<div class="item col-lg-3 col-md-3 col-sm-3 col-lx-12">
+    <div class="product__item sale">
+        <div class="product__item__pic set-bg" data-setbg="{{item.favorite.image.url}}">
+            {% if item.favorite.off_sale %}
+            <div class="label sale">تخفیف خورده</div>
+            {% endif %}
+            <ul class="product__hover">
+                <li><a href="{{item.favorite.image.url}}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                <li><a href="remove_item_favorite/{{item.id}}"><span class="icon_close"></span></a></li>
+                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+            </ul>
+        </div>
+        <div class="product__item__text">
+            <h6><a href="{{item.favorite.get_absolute_url}}">{{item.favorite.title}}</a></h6>
+            <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            {% if item.off_sale %}
+            <div class="product__price">{{item.favorite.price_with_discount}}<span>{{item.favorite.price}}</span></div>
+            {% else %}
+            <div class="product__price">{{item.favorite.price}}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% else %}
+<div class="container">
+    <h5 class="alert alert-primary text-center">موردی در علاقه مندی ها پیدا نشد</h5>
+    <div class="row">
+        {% random_categories %}
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}

@@ -34,10 +34,10 @@
                     	{% endfor %}
 					</div>
 					<div class="form-wrapper">
-						{{register_form.email}}
+						{{register_form.phone}}
 						<i class="zmdi zmdi-email"></i>
 					</div>
-					{% for error in register_form.email.errors %}
+					{% for error in register_form.phone.errors %}
                         <p class="text-danger p-1">{{error}}</p>
                     {% endfor %}
 					<!-- <div class="form-wrapper">
@@ -54,9 +54,13 @@
 						<i class="zmdi zmdi-lock"></i>
 					</div>
 					<div class="form-wrapper">
-						{{register_form.profile_pic}}
-						<i class="zmdi zmdi-lock"></i>
-					</div>
+						<!-- <label for="myfile">تصویر</label>
+						<input type="file" id="img" name="img"> -->
+						{{register_form.img}}
+						{% for error in register_form.img.errors %}
+                        	<p class="text-danger p-1">{{error}}</p>
+                    	{% endfor %}
+					</div><br>
 					<div class="form-wrapper">
 						{{register_form.password}}
 						<i class="zmdi zmdi-lock"></i>

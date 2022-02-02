@@ -1,55 +1,58 @@
 {% extends 'shared/Layout.html' %}
-{% load products %}
+
 {% block content %}
-<br>
-{% if favorite %}
-<div class="container rtl">
-    <h4 class="text-right">محصولات مورد علاقه شما <span class="icon_heart_alt"></span></h4>
-    <hr>
-    
-<div class="row">
 
-{% for item in favorite %}
-<div class="item col-lg-3 col-md-3 col-sm-3 col-lx-12">
-    <div class="product__item sale">
-        <div class="product__item__pic set-bg" data-setbg="{{item.favorite.image.url}}">
-            {% if item.favorite.off_sale %}
-            <div class="label sale">تخفیف خورده</div>
-            {% endif %}
-            <ul class="product__hover">
-                <li><a href="{{item.favorite.image.url}}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                <li><a href="remove_item_favorite/{{item.id}}"><span class="icon_close"></span></a></li>
-                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-            </ul>
-        </div>
-        <div class="product__item__text">
-            <h6><a href="{{item.favorite.get_absolute_url}}">{{item.favorite.title}}</a></h6>
-            <div class="rating">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-            </div>
-            {% if item.off_sale %}
-            <div class="product__price">{{item.favorite.price_with_discount}}<span>{{item.favorite.price}}</span></div>
-            {% else %}
-            <div class="product__price">{{item.favorite.price}}</div>
-            {% endif %}
-        </div>
-    </div>
-</div>
-{% endfor %}
-</div>
-</div>
-{% else %}
-<div class="container">
-    <h5 class="alert alert-primary text-center">موردی در علاقه مندی ها پیدا نشد</h5>
+<!-- <div class="container">
     <div class="row">
-        {% random_categories %}
+        <div class="col-lg-4">
+            <img src="{{qs.profile_pic.url}}" alt="aa">
+        </div>
     </div>
-</div>
-{% endif %}
+</div> -->
 
+{% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'LoginForm/login-form-15/css/style.css' %}">
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-5">
+					<div class="wrap">
+						<!-- <div class="img" style="background-image: url('static/LoginForm/login-form-15/images/bg-1.jpg');"></div> -->
+						<img class="img-class" src="{{qs.profile_pic.url}}" height="20%" />
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100 text-center rtl">
+			      			<h5 class="btn">نام و نام خانوادگی : <span class="text-success">{{qs.user.get_full_name}}</span></h5>
+			      			<h5 class="btn">نام کاربری : <span>{{qs.user.get_username}}</span></h5><hr>
+			      			<h5 class="btn">شماره تلفن : <span>{{qs.phone}}</span></h5><hr>
+			      			<h6 class="little-text">تاریخ ثبت نام در سایت : <span>{{qs.user.date_joined}}</span></h6><hr>
+			      		</div>
+			      	</div>
+
+
+		            </div>
+		          </form>
+		          <a class="btn btn-danger m-3" href="/logout">خروج از حساب کاربری</a>
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="{% static 'LoginForm/login-form-15/js/jquery.min.js' %}"></script>
+  <script src="{% static 'LoginForm/login-form-15/js/popper.js' %}"></script>
+  <script src="{% static 'LoginForm/login-form-15/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'LoginForm/login-form-15/js/main.js' %}"></script>
 
 {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'shared/Layout.html' %}
+{% block content %}
+<section class="contact spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__content">
+                    <div class="contact__address">
+                        <h5>اطلاعات تماس</h5>
+                        <ul>
+                            <li>
+                                <h6><i class="fa fa-map-marker"></i> آدرس</h6>
+                                <p>{{qs.address}}</p>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-phone"></i> تلفن</h6>
+                                <p><!--<span>125-711-811</span>--><span>{{qs.phone}}</span></p>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-headphones"></i> پشتیبانی</h6>
+                                <p>{{qs.email}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <div class="contact__form">
+                        <h5>ارسال پیام به مدیریت</h5>
+                        <form action="" method="post" class="rtl">
+                            {% csrf_token %}
+                            {{form.name}}
+                            {{form.subject}}
+                            {{form.email}}
+                            {{form.message}}
+                            <button class="btn btn-success" type="submit">ارسال پیام</button>
+                            {% if messages %}
+                            <hr>
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <!-- <h5  {% if message.tags %} class=" alter alert-success mt-2 p-4" {% endif %}> {{ message }} </h5> -->
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>ممنون از پیام شما !</strong> {{ message }} 
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d13184.286734037802!2d48.8268617!3d34.2977173!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2suk!4v1643729379435!5m2!1sen!2suk" width="800" height="750" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}

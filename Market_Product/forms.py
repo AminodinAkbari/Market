@@ -9,9 +9,6 @@ rates = [
     (4,4),
     (5,5),
 ]
-# sizes = [
-#     ('S' , Product.objects.get('S'))
-# ]
 
 class ReviewForm(forms.Form):
     rate = forms.ChoiceField(widget=forms.Select, choices=rates)   

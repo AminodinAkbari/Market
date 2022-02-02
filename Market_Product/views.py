@@ -1,15 +1,12 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import render
 from Market.views import home_page
 from django.db.models import F
 from django.db.models import Count
 from django.views.generic import ListView
 import random
-from django.http import Http404,HttpResponseRedirect,HttpResponse
+from django.http import Http404
 from django.contrib import messages
 
-from django import forms
-
-from Market_Accounts.models import Profile
 # from Market_Cart.forms import NewOrderForm
 from .forms import ReviewForm
 from Market_Product.models import *
@@ -19,6 +16,14 @@ from Market.tools import debugger
 from Market_Cart.forms import NewOrderForm
 
 from .utils import get_rate_avg
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import FullSerializer , ProductMinimalSerializers
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
+import django_filters
+from .permissions import Safe
 
 class AllProducts(ListView):
     template_name = 'products_templates/All_Products(ListView).html'
@@ -140,8 +145,40 @@ class ProductSearch(ListView):
 
 def userfavorite(request):
     favorite = UserFavorite.objects.filter(user = request.user.id)
-    return render(request,'user/UserPanel.html',{'favorite':favorite})
+    return render(request,'user/Favorites.html',{'favorite':favorite})
 
 def company_page(request,slug):
     company = Product.objects.get(slug = slug)
     return render(request,'products_templates/Company.html',{'company':company})
+
+
+    # ----------- Django Rest FrameWork --------------
+
+@api_view(['GET'])
+def product_list(request):
+    qs = Product.objects.all()
+    serializer = FullSerializer(qs , many = True)
+    return Response(serializer.data)
+
+class ProductUnsafeMethodes(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = FullSerializer
+    permission_classes = ((Safe,))
+
+class ProductSizes(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = FullSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['sizes']
+
+class ProductPriceFilter(django_filters.FilterSet):
+    price = django_filters.RangeFilter()
+
+    class Meta:
+        model = Product
+        fields = ['price']
+
+class ProductPriceRange(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = FullSerializer
+    filter_class = ProductPriceFilter

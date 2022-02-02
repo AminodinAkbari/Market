@@ -15,7 +15,9 @@ urlpatterns = [
     path('',include('Market_Product.urls'), name='product_detail'),
     path('',include('Market_Accounts.urls')),
     path('',include('Market_Cart.urls')),
+    path('Docs/',include('Documentation.urls')),
     path('accounts/', include('allauth.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:

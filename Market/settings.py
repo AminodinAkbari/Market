@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'mathfilters',
     'ckeditor',
     'captcha',
+    'rest_framework',
+    'django_filters',
 
     #Google sign in
     'allauth',
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
     'Market_OFFs_Banners',
     'Market_Accounts',
     'Market_Cart',
+    'Documentation',
 ]
 
 MIDDLEWARE = [
@@ -186,4 +189,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAdminUser'
+    #  ]
 }

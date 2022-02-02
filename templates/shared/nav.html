@@ -64,7 +64,7 @@
                         </li>
                         <li><a href="./blog.html">{{Articles}}</a></li>
                         <li><a href="./contact.html">{{About_us}}</a></li>
-                        <li><a href="./contact.html">{{Contact_us}}</a></li>
+                        <li><a href="/Docs/contact_us">{{Contact_us}}</a></li>
                     </ul>
                 </nav>
             </div>
@@ -78,7 +78,16 @@
                                 <p><a href='/favorites'>{{ user.socialaccount_set.all.0.extra_data.name }}</a></p>
                                 <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="user-avatar" alt="user_avatar">
                                 {% else %}
-                                <p><a href='/favorites'>{{ user.first_name }}</a></p>
+                                <div class="dropdown">
+                                    <a class="rtl"><span>{{ user.get_full_name }}</span></a>
+                                    
+                                    <img src="{{current_user.profile_pic.url}}" class="user-avatar" alt="user_avatar">
+                                    
+                                    <div class="dropdown-content text-center">
+                                      <a href="/user_panel">پنل کاربری</a><hr>
+                                      <a href="/logout">خروج</a>
+                                    </div>
+                                  </div>
                             {% endif %}
                         </div>
                         {% else %}

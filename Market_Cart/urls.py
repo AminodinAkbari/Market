@@ -1,4 +1,4 @@
-from django.urls import path,re_path,include
+from django.urls import path
 from .views import add_to_order_detail,Cart,remove_item_fromcart,add_to_favorite,remove_item_favorite
 urlpatterns = [
     path('order_detail/<slug>',add_to_order_detail),

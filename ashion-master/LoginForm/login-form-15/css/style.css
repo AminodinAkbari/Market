@@ -9,7 +9,9 @@
  article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
-
+.little-text{
+  font-size: 12px !important;
+}
 
 
 hr {
@@ -91,8 +93,13 @@ pre {
 figure {
   margin: 0 0 1rem; }
 
-img {
+.img-class {
   vertical-align: middle;
+  max-width:30% !important;
+  min-height:120px !important;
+  margin-left:35%;
+  margin-top:20px;
+  border-radius:50%;
   border-style: none; }
 
 svg {

@@ -1,0 +1,18 @@
+{% include 'shared/styles.html' %}
+{% load render_partial %}
+<div class="container Docs-container">
+    <div class="row">
+        <div class="col-lg-4 DocLink">
+            {% render_partial 'Documentation.views.link' %}
+        </div>
+
+        <div class="col-lg-8">
+            {% for item in object_list %}
+            {{item.text|safe}}
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% include 'shared/Scripts.html' %}

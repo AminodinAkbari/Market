@@ -1,5 +1,5 @@
 from django.urls import path
-from Market_Product.views import product_detail,AllProducts,AllProductsByCategory,ProductSearch,userfavorite,company_page
+from Market_Product.views import *
 from Market.views import SideItems
 
 
@@ -12,5 +12,9 @@ urlpatterns = [
     path('AllProducts',SideItems),
     path('favorites',userfavorite),
     path('Company/<slug>',company_page),
-    # path('SendReview/<slug>',SendReview),
+    # DJANGO REST API
+    path('product_list',product_list),
+    path('product_manage/<int:pk>',ProductUnsafeMethodes.as_view()),
+    path('product_price',ProductPriceRange.as_view()),
+    path('product_sizes',ProductSizes.as_view()),
 ]

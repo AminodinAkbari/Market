@@ -1,4 +1,3 @@
-from tkinter import Widget
 from django import forms
 from django.contrib.auth.models import User
 from captcha import fields,widgets
@@ -25,18 +24,20 @@ class RegisterForm(forms.Form):
     lastname = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder':'نام خانوادگی','class':'form-control'}),
     )
-    email = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder':'ایمیل','class':'form-control','max_length':'11'}),
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder':'تلفن','class':'form-control','maxlength':'11'}),
     )
+
     Gender = (
         ('woman', 'زن'),
         ('man', 'مرد'),
     )
-
     gender = forms.ChoiceField(
         choices = Gender,
         widget=forms.Select(attrs={'class':'form-control'})
         )
+
+    img = forms.FileField()
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder':'کلمه عبور','class':'form-control mb-3'}),

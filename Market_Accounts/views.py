@@ -33,23 +33,25 @@ def Register_view(request):
     if request.user.is_authenticated:
         return redirect('/')
 
-    Form = RegisterForm(request.POST or None)
+    Form = RegisterForm(request.POST or None, request.FILES or None)
     if Form.is_valid():
+        img = Form.cleaned_data.get('img')
         user_name = Form.cleaned_data.get('username')
-        email = Form.cleaned_data.get('email')
+        phone = Form.cleaned_data.get('phone')
         password = Form.cleaned_data.get('password')
         first_name = Form.cleaned_data.get('firstname')
         last_name = Form.cleaned_data.get('lastname')
         gender = Form.cleaned_data.get('gender')
-        # profile_pic = Form.cleaned_data.get('profile_pic')
-        # print(profile_pic)
-        User.objects.create_user(username=user_name,password=password,email=email,first_name=first_name,last_name=last_name)
-        # return redirect('/login')
+
+        User.objects.create_user(username=user_name,password=password,first_name=first_name,last_name=last_name)
+
         user = authenticate(request,username=user_name,password=password)
-        Profile.objects.create(user =user ,gender = gender)
+        Profile.objects.create(user =user ,gender = gender,profile_pic = img,phone=phone)
         if user is not None:
             login(request,user)
             return redirect('/')
+    else:
+        print("Form is Not Valid")
     context = {
         'register_form':Form
     }
@@ -58,3 +60,9 @@ def Register_view(request):
 
 def google(request):
     return render(request,'google.html',{})
+
+
+@login_required(login_url='/login')
+def user_panel(request):
+    qs = Profile.objects.get(user = request.user)
+    return render(request,'user/UserPanel.html',{"qs":qs})

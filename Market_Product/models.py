@@ -1,10 +1,6 @@
-from itertools import product
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
-from django.db.models.fields import CharField
-from django.shortcuts import redirect
-from django.urls import reverse
 from django.utils.timezone import now
 from datetime import datetime
 from Market.utils import unique_slug_generator
@@ -14,7 +10,6 @@ from ckeditor.fields import RichTextField
 from django.db.models import Q
 from django.http import Http404
 # Create your models here.
-from .utils import get_rate_avg
 
 class ProductManager(models.Manager):
     def get_active_products(self):
@@ -170,7 +165,3 @@ class Review(models.Model):
 
     def __str__(self) :
         return self.product.title
-
-
-
-

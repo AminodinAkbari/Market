@@ -5,9 +5,8 @@ import random
 # Create your views here.
 def main_off_banner(request):
     items=None
-    items =HeaderBanner.objects.filter(active = True).first()
-    # random_symbol = random.sample(items, 1)
-    # print(random_symbol)
+    items =HeaderBanner.objects.filter(active = True).first() or None
+
     
     context = {
         'ActiveBanners':items,

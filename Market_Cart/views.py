@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/login')
 def Cart(request):
-    open_order:Order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
+    open_order:Order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first() or None
     items = (OrderDetail.objects.filter(order_id = open_order or None))
     context ={'items':items,'this_order':open_order}
 
@@ -24,13 +24,13 @@ def add_to_order_detail(request,slug):
     print(color)
 
     if Form.is_valid():
-        order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
+        order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first() or None
         print(order)
-        count = Form.cleaned_data['count']
+        count = Form.cleaned_data['count'] or None
         
         if count < 0:
             count = 1
-        product = Product.objects.get_by_slug(slug)
+        product = Product.objects.get_by_slug(slug) or None
         print(product)
         
         if order is None:
@@ -57,7 +57,7 @@ def remove_item_fromcart(request,**kwargs):
 
 @login_required(login_url='/login')
 def add_to_favorite(request,slug):
-    order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first()
+    order = Order.objects.filter(owner_id=request.user.id,is_paid=False).first() or None
     print(order.owner_id)
 
     if order is None:
@@ -65,7 +65,6 @@ def add_to_favorite(request,slug):
         order = Order.objects.create(owner_id=request.user.id,is_paid=False)
 
     product = Product.objects.get_by_slug(slug)
-    # order.userfavorite_set.create(favorite=product.id,user_id = request.user.id)
     UserFavorite.objects.create(favorite_id=product.id,user = request.user.id)
     return redirect('/')
     
@@ -73,7 +72,7 @@ def add_to_favorite(request,slug):
 def remove_item_favorite(request,**kwargs):
     detail_id = kwargs['order_id']
     if detail_id is not None:
-        order_detail = UserFavorite.objects.get_queryset().get(id=detail_id)
+        order_detail = UserFavorite.objects.get_queryset().get(id=detail_id) or None
         if order_detail is not None:
             order_detail.delete()
             return redirect('/favorites')
